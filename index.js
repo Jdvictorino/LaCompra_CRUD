@@ -16,7 +16,7 @@ app.get("/products", (req, res) => {
   res.status(200).json(products);
 });
 
-//Primera opcion CRUD: READ: Obtener un producto específico por ID
+// Primera opcion CRUD: READ: Obtener un producto específico por ID
 app.get("/products/:id", (req, res) => {
   const productId = parseInt(req.params.id);
   const product = products.find((p) => p.id === productId);
@@ -28,7 +28,7 @@ app.get("/products/:id", (req, res) => {
   }
 });
 
-//Segunda opcion CRUD: CREATE: Agregar un producto a la lista
+// Segunda opcion CRUD: CREATE: Agregar un producto a la lista
 app.post("/products", (req, res) => {
   // Calculamos un ID seguro sumando 1 al ID del último producto
   const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
@@ -45,7 +45,7 @@ app.post("/products", (req, res) => {
     .json({ message: "Producto agregado a la lista", product: newProduct });
 });
 
-//Tercera opcion CRUD: UPDATE: Modificar datos de un producto (ej. cambiar precio)
+// Tercera opcion CRUD: UPDATE: Modificar datos de un producto (ej. cambiar precio)
 app.put("/products/:id", (req, res) => {
   const productId = parseInt(req.params.id);
   const productIndex = products.findIndex((p) => p.id === productId);
@@ -57,14 +57,6 @@ app.put("/products/:id", (req, res) => {
     products[productIndex].category =
       req.body.category || products[productIndex].category;
 
-<<<<<<< Updated upstream
-    res
-      .status(200)
-      .json({
-        message: "Producto actualizado",
-        product: products[productIndex],
-      });
-=======
     res.status(200).json({
       message: "Producto actualizado",
       product: products[productIndex],
@@ -74,18 +66,18 @@ app.put("/products/:id", (req, res) => {
   }
 });
 
-//Cuarta opcion CRUD: DELETE: Eliminar un producto de la lista
+// Cuarta opcion CRUD: DELETE: Eliminar un producto de la lista
 app.delete("/products/:id", (req, res) => {
   const productId = parseInt(req.params.id);
   const productIndex = products.findIndex((p) => p.id === productId);
 
+  //*Sí encuentra el producto, lo elimina y retorna un mensaje de confirmación.
   if (productIndex !== -1) {
     const deletedProduct = products.splice(productIndex, 1);
     res.status(200).json({
       message: "Producto sacado del carrito",
       product: deletedProduct[0],
     });
->>>>>>> Stashed changes
   } else {
     res.status(404).json({ message: "Producto no encontrado" });
   }
