@@ -22,6 +22,23 @@ app.post("/products", (req, res) => {
     .json({ message: "Producto agregado a la lista", product: newProduct });
 });
 
+// READ: Obtener toda la lista de compras
+app.get("/products", (req, res) => {
+  res.status(200).json(products);
+});
+
+//Segunda opcion CRUD: READ: Obtener un producto específico por ID
+app.get("/products/:id", (req, res) => {
+  const productId = parseInt(req.params.id);
+  const product = products.find((p) => p.id === productId);
+
+  if (product) {
+    res.status(200).json(product);
+  } else {
+    res.status(404).json({ message: "Producto no encontrado en la lista" });
+  }
+});
+
 //*Aquí se inicia el servidor
 app.listen(PORT, () => {
   console.log(`Servidor de Supermercado corriendo en http://localhost:${PORT}`);
