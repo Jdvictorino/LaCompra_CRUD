@@ -1,33 +1,22 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
-//*Este Middleware es para procesar JSON
+// Middleware para procesar datos JSON enviados desde el frontend
 app.use(express.json());
 
-//*Esta variable es para almacenar los productos
-let products = [];
+// Le decimos a Express que sirva la interfaz gráfica desde la carpeta "public"
+app.use(express.static("public"));
 
-// Primer opcion CRUD: CREATE: Agregar un producto a la lista
-app.post("/products", (req, res) => {
-  const newProduct = {
-    id: products.length + 1,
-    name: req.body.name, // ej: "Leche"
-    price: req.body.price, // ej: 1.50
-    category: req.body.category, // ej: "Lácteos"
-  };
-  products.push(newProduct);
-  res
-    .status(201)
-    .json({ message: "Producto agregado a la lista", product: newProduct });
-});
+// Nuestra "Base de datos" en memoria para la lista de compras
+let products = [];
 
 // READ: Obtener toda la lista de compras
 app.get("/products", (req, res) => {
   res.status(200).json(products);
 });
 
-//Segunda opcion CRUD: READ: Obtener un producto específico por ID
+// Primera opcion CRUD: READ: Obtener un producto específico por ID
 app.get("/products/:id", (req, res) => {
   const productId = parseInt(req.params.id);
   const product = products.find((p) => p.id === productId);
@@ -38,6 +27,24 @@ app.get("/products/:id", (req, res) => {
     res.status(404).json({ message: "Producto no encontrado en la lista" });
   }
 });
+
+// Segunda opcion CRUD: CREATE: Agregar un producto a la lista
+app.post("/products", (req, res) => {
+  // Calculamos un ID seguro sumando 1 al ID del último producto
+  const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
+
+  const newProduct = {
+    id: newId,
+    name: req.body.name,
+    price: req.body.price,
+    category: req.body.category,
+  };
+  products.push(newProduct);
+  res
+    .status(201)
+    .json({ message: "Producto agregado a la lista", product: newProduct });
+});
+
 // Tercera opcion CRUD: UPDATE: Modificar datos de un producto (ej. cambiar precio)
 app.put("/products/:id", (req, res) => {
   const productId = parseInt(req.params.id);
@@ -76,7 +83,10 @@ app.delete("/products/:id", (req, res) => {
   }
 });
 
-//*Aquí se inicia el servidor
+// Iniciar el servidor (Esta función mantiene vivo el programa)
 app.listen(PORT, () => {
-  console.log(`Servidor de Supermercado corriendo en http://localhost:${PORT}`);
+  console.log(`=================================================`);
+  console.log(`🚀 Servidor corriendo en: http://localhost:${PORT}`);
+  console.log(`⚠️  Presiona "Ctrl + C" en esta terminal para apagarlo.`);
+  console.log(`=================================================`);
 });
