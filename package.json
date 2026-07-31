@@ -1,0 +1,23 @@
+{
+  "name": "lacompra_crud",
+  "version": "1.0.0",
+  "description": "Sistema de registro de productos mediante API RESTful (CRUD) desarrollado en JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jdvictorino/LaCompra_CRUD.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jdvictorino/LaCompra_CRUD/issues"
+  },
+  "homepage": "https://github.com/Jdvictorino/LaCompra_CRUD#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
