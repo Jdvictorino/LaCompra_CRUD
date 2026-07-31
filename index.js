@@ -38,6 +38,28 @@ app.get("/products/:id", (req, res) => {
     res.status(404).json({ message: "Producto no encontrado en la lista" });
   }
 });
+// Tercera opcion CRUD: UPDATE: Modificar datos de un producto (ej. cambiar precio)
+app.put("/products/:id", (req, res) => {
+  const productId = parseInt(req.params.id);
+  const productIndex = products.findIndex((p) => p.id === productId);
+
+  if (productIndex !== -1) {
+    products[productIndex].name = req.body.name || products[productIndex].name;
+    products[productIndex].price =
+      req.body.price || products[productIndex].price;
+    products[productIndex].category =
+      req.body.category || products[productIndex].category;
+
+    res
+      .status(200)
+      .json({
+        message: "Producto actualizado",
+        product: products[productIndex],
+      });
+  } else {
+    res.status(404).json({ message: "Producto no encontrado" });
+  }
+});
 
 //*Aquí se inicia el servidor
 app.listen(PORT, () => {
