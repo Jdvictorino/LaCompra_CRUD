@@ -50,12 +50,27 @@ app.put("/products/:id", (req, res) => {
     products[productIndex].category =
       req.body.category || products[productIndex].category;
 
-    res
-      .status(200)
-      .json({
-        message: "Producto actualizado",
-        product: products[productIndex],
-      });
+    res.status(200).json({
+      message: "Producto actualizado",
+      product: products[productIndex],
+    });
+  } else {
+    res.status(404).json({ message: "Producto no encontrado" });
+  }
+});
+
+// Cuarta opcion CRUD: DELETE: Eliminar un producto de la lista
+app.delete("/products/:id", (req, res) => {
+  const productId = parseInt(req.params.id);
+  const productIndex = products.findIndex((p) => p.id === productId);
+
+  //*Sí encuentra el producto, lo elimina y retorna un mensaje de confirmación.
+  if (productIndex !== -1) {
+    const deletedProduct = products.splice(productIndex, 1);
+    res.status(200).json({
+      message: "Producto sacado del carrito",
+      product: deletedProduct[0],
+    });
   } else {
     res.status(404).json({ message: "Producto no encontrado" });
   }
